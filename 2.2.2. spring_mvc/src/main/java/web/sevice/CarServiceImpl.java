@@ -1,21 +1,20 @@
-package web.controller;
+package web.sevice;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.stereotype.Service;
 import web.model.Car;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-public class CarsControllerServise {
+@Service
+public class CarServiceImpl implements CarService {
 
-    @GetMapping( "/cars")
-    public String CarsCount(ModelMap model,
-                            @RequestParam(value = "count", required = false) Integer count) {
+    @Override
+    public List<Car> getCarCount(Integer count) {
 
+        if (count == null) {
+            count = 0;
+        }
         List<Car> carList = new ArrayList<>();
 
         carList.add(new Car(1, "model1", "green"));
@@ -24,7 +23,6 @@ public class CarsControllerServise {
         carList.add(new Car(4, "model4", "white"));
         carList.add(new Car(5, "model5", "purple"));
 
-        if (count != null) {
             switch (count) {
                 case 1:
                     carList = carList.subList(0, 1);
@@ -41,8 +39,6 @@ public class CarsControllerServise {
                 default:
                     break;
             }
-        }
-        model.addAttribute("cars", carList);
-        return "Cars";
+        return carList;
     }
 }
